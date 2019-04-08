@@ -27,8 +27,11 @@ namespace matrix_multiplication::data
         void Initialize(T value);
 
         T *operator [](size_t index);
+        bool operator == (Matrix<T> m) const;
 
         std::string to_string(std::ostream &os);
+
+        void Add(Matrix<T> matrix);
 
         ~Matrix();
 
@@ -60,6 +63,15 @@ std::string matrix_multiplication::data::Matrix<T>::to_string(std::ostream &os) 
     }
     return result;
 }
+//
+//matrix_multiplication::data::Matrix<int> & operator +(matrix_multiplication::data::Matrix<int> lhs, matrix_multiplication::data::Matrix<int> & rhs){
+//    for (size_t i = 0; i < lhs.get_row(); ++i) {
+//        for (size_t j = 0; j < lhs.get_col(); ++j) {
+//            lhs[i][j] += rhs[i][j];
+//        }
+//    }
+//    return lhs;
+//}
 
 
 template <class T>
@@ -97,6 +109,29 @@ size_t matrix_multiplication::data::Matrix<T>::get_row() {
 template<class T>
 size_t matrix_multiplication::data::Matrix<T>::get_col() {
     return this->col_;
+}
+
+template<class T>
+void matrix_multiplication::data::Matrix<T>::Add(matrix_multiplication::data::Matrix<T> matrix) {
+    for (size_t i = 0; i < matrix.get_row(); ++i) {
+        for (size_t j = 0; j < matrix.get_col(); ++j) {
+            this->matrix[i][j] += matrix[i][j];
+        }
+    }
+}
+
+template<class T>
+bool matrix_multiplication::data::Matrix<T>::operator==(matrix_multiplication::data::Matrix<T> m) const {
+    if (m.get_row() != this->row_) return false;
+    if (m.get_col() != this->col_) return false;
+
+    for (size_t i = 0; i < m.get_row(); ++i) {
+        for (size_t j = 0; j < m.get_col(); ++j) {
+            if (this->matrix[i][j] != m[i][j]) return false;
+        }
+    }
+
+    return true;
 }
 
 #endif //MATRIX_MULTIPLICATION_MATRIX_H
