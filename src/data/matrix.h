@@ -18,8 +18,12 @@ namespace matrix_multiplication::data
         size_t col_;
         T **matrix;
 
+        void AllocateMemory();
     public:
+        Matrix();
         Matrix(size_t row, size_t col);
+
+        void SetDimensions(size_t row, size_t col);
 
         size_t get_row();
         size_t get_col();
@@ -77,8 +81,7 @@ std::string matrix_multiplication::data::Matrix<T>::to_string(std::ostream &os) 
 template <class T>
 matrix_multiplication::data::Matrix<T>::Matrix(size_t row, size_t col): row_(row), col_(col)
 {
-    this->matrix = new T*[col_];
-    for (size_t i = 0; i < col_; ++i) this->matrix[i] = new T[row_];
+    AllocateMemory();
 }
 
 
@@ -132,6 +135,25 @@ bool matrix_multiplication::data::Matrix<T>::operator==(matrix_multiplication::d
     }
 
     return true;
+}
+
+template<class T>
+matrix_multiplication::data::Matrix<T>::Matrix()
+{
+
+}
+
+template<class T>
+void matrix_multiplication::data::Matrix<T>::AllocateMemory() {
+    this->matrix = new T*[col_];
+    for (size_t i = 0; i < col_; ++i) this->matrix[i] = new T[row_];
+}
+
+template<class T>
+void matrix_multiplication::data::Matrix<T>::SetDimensions(size_t row, size_t col) {
+    row_ = row;
+    col_ = col;
+    AllocateMemory();
 }
 
 #endif //MATRIX_MULTIPLICATION_MATRIX_H
