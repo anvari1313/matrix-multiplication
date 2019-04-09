@@ -9,7 +9,10 @@
 namespace matrix_multiplication::task {
     class TaskRunner {
     private:
-        matrix_multiplication::data::Dataset dataset;
+    protected:
+        size_t dataset_row_;
+        size_t dataset_col_;
+        matrix_multiplication::data::Dataset dataset_;
 
     public:
         TaskRunner(size_t dataset_row, size_t dataset_col);
