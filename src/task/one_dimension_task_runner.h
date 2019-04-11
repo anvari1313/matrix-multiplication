@@ -11,7 +11,7 @@ namespace matrix_multiplication::task {
     class OneDimensionTaskRunner : public matrix_multiplication::task::TaskRunner {
     private:
     public:
-        OneDimensionTaskRunner(size_t dataset_row, size_t dataset_col);
+        OneDimensionTaskRunner(size_t dataset_row, size_t dataset_col, int thread_num);
         void RunParallel() override;
     };
 }   // namespace matrix_multiplication::task
