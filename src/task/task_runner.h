@@ -12,10 +12,13 @@ namespace matrix_multiplication::task {
     protected:
         size_t dataset_row_;
         size_t dataset_col_;
+
+        int thread_num_;
+
         matrix_multiplication::data::Dataset dataset_;
 
     public:
-        TaskRunner(size_t dataset_row, size_t dataset_col);
+        TaskRunner(size_t dataset_row, size_t dataset_col, int thread_num);
 
         virtual void RunParallel() = 0;
     };  // class TaskRunner
