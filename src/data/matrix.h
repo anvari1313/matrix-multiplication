@@ -9,9 +9,8 @@
 #include <ostream>
 #include <algorithm>
 
-namespace matrix_multiplication::data
-{
-    template <class T>
+namespace matrix_multiplication::data {
+    template<class T>
     class Matrix {
     private:
         size_t row_;
@@ -19,23 +18,29 @@ namespace matrix_multiplication::data
         T **matrix;
 
         void AllocateMemory();
+
     public:
         Matrix();
+
         Matrix(size_t row, size_t col);
 
         void SetDimensions(size_t row, size_t col);
 
         size_t get_row();
+
         size_t get_col();
 
         void Initialize(T value);
 
-        T *operator [](size_t index);
-        bool operator == (Matrix<T> m) const;
+        T *operator[](size_t index);
+
+        bool operator==(Matrix<T> m) const;
 
         std::string to_string(std::ostream &os);
 
         void Add(Matrix<T> matrix);
+
+        void dispose();
 
         ~Matrix();
 
@@ -78,17 +83,14 @@ std::string matrix_multiplication::data::Matrix<T>::to_string(std::ostream &os) 
 //}
 
 
-template <class T>
-matrix_multiplication::data::Matrix<T>::Matrix(size_t row, size_t col): row_(row), col_(col)
-{
+template<class T>
+matrix_multiplication::data::Matrix<T>::Matrix(size_t row, size_t col): row_(row), col_(col) {
     AllocateMemory();
 }
 
 
-
-template <class T>
-void matrix_multiplication::data::Matrix<T>::Initialize(T value)
-{
+template<class T>
+void matrix_multiplication::data::Matrix<T>::Initialize(T value) {
     for (size_t i = 0; i < row_; ++i) std::fill_n(this->matrix[i], col_, value);
 }
 
@@ -97,11 +99,11 @@ T *matrix_multiplication::data::Matrix<T>::operator[](size_t index) {
     return this->matrix[index];
 }
 
+#include <iostream>
+
 template<class T>
-matrix_multiplication::data::Matrix<T>::~Matrix()
-{
-    for (size_t i = 0; i < col_; ++i)  delete[] this->matrix[i];
-    delete[] this->matrix;
+matrix_multiplication::data::Matrix<T>::~Matrix() {
+
 }
 
 template<class T>
@@ -114,11 +116,12 @@ size_t matrix_multiplication::data::Matrix<T>::get_col() {
     return this->col_;
 }
 
+
 template<class T>
 void matrix_multiplication::data::Matrix<T>::Add(matrix_multiplication::data::Matrix<T> matrix) {
-    for (size_t i = 0; i < matrix.get_row(); ++i) {
-        for (size_t j = 0; j < matrix.get_col(); ++j) {
-            this->matrix[i][j] += matrix[i][j];
+    for (size_t i = 0; i < matrix.row_; ++i) {
+        for (size_t j = 0; j < matrix.col_; ++j) {
+            this->matrix[i][j] = this->matrix[i][j] + matrix[i][j];
         }
     }
 }
@@ -138,14 +141,13 @@ bool matrix_multiplication::data::Matrix<T>::operator==(matrix_multiplication::d
 }
 
 template<class T>
-matrix_multiplication::data::Matrix<T>::Matrix()
-{
+matrix_multiplication::data::Matrix<T>::Matrix() {
 
 }
 
 template<class T>
 void matrix_multiplication::data::Matrix<T>::AllocateMemory() {
-    this->matrix = new T*[col_];
+    this->matrix = new T *[col_];
     for (size_t i = 0; i < col_; ++i) this->matrix[i] = new T[row_];
 }
 
@@ -154,6 +156,12 @@ void matrix_multiplication::data::Matrix<T>::SetDimensions(size_t row, size_t co
     row_ = row;
     col_ = col;
     AllocateMemory();
+}
+
+template<class T>
+void matrix_multiplication::data::Matrix<T>::dispose() {
+    for (size_t i = 0; i < col_; ++i) delete[] this->matrix[i];
+    delete[] this->matrix;
 }
 
 #endif //MATRIX_MULTIPLICATION_MATRIX_H
