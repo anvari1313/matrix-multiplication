@@ -19,6 +19,7 @@ namespace matrix_multiplication::data {
         Matrix<int> mat2_;
 
         Dataset(size_t row, size_t col);
+        void FillRandom(double low_bound, double high_bound);
         Matrix<int> PartialMultiply(size_t mat1_start_index, size_t mat1_end_index, size_t mat2_start_index, size_t mat2_end_index);
         Matrix<int> Multiply();
         ~Dataset();
